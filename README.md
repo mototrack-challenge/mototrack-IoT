@@ -62,8 +62,6 @@ Felipe Ulson Sora (RM: 555462)
 
 Vinícius Ribeiro Nery Costa (RM: 559165)
 
-Nome 4 (RM: XXXXX)
-
 📅 Status do Projeto
 🟢 Sprint 1: Protótipo com envio de dados funcionando.
 
