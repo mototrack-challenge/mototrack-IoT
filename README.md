@@ -56,11 +56,11 @@ Grupo MotoTrack - FIAP
 
 Participantes:
 
-Nome 1 (RM: XXXXX)
+Augusto Lopes Lyra (RM: 558209)
 
-Nome 2 (RM: XXXXX)
+Felipe Ulson Sora (RM: 555462)
 
-Nome 3 (RM: XXXXX)
+Vinícius Ribeiro Nery Costa (RM: 559165)
 
 Nome 4 (RM: XXXXX)
 
