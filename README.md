@@ -68,5 +68,3 @@ Vinícius Ribeiro Nery Costa (RM: 559165)
 📌 Licença
 Este projeto é de uso educacional, desenvolvido para fins acadêmicos.
 ---
-Se quiser, posso adaptar o README incluindo o **nome dos membros do grupo**, **prints do painel ThingSpeak**, ou detalhes do sensor que será simulado. Deseja que eu adicione isso também?
-
