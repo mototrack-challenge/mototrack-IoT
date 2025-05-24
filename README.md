@@ -4,24 +4,20 @@ Projeto desenvolvido para o desafio MotoTrack, com o objetivo de monitorar e ras
 ## 📡 Descrição
 Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (como temperatura e nível de bateria) para a nuvem via ThingSpeak, além de comunicar-se com uma API REST Java responsável por registrar movimentações de motos em diferentes departamentos da empresa.
 
-A aplicação integra as seguintes tecnologias:
-
-ESP32 + C++
-
-ThingSpeak para monitoramento em tempo real
-
-API REST em Java com Spring Boot
-
-Exposição da API local usando ngrok (HTTP)
-
-Simulador Wokwi para testes online
+- A aplicação integra as seguintes tecnologias:
+- ESP32 + C++
+- ThingSpeak para monitoramento em tempo real
+- API REST em Java com Spring Boot
+- Exposição da API local usando ngrok (HTTP)
+- Simulador Wokwi para testes online
 
 
 ## 📁 Estrutura do Projeto
+```bash
 codigo-esp32/
 ├── main.ino       # Código principal do ESP32
 ├── README.md      # Este arquivo
-
+```
 
 ## 🔧 Tecnologias Utilizadas
 
@@ -42,6 +38,7 @@ codigo-esp32/
 - Temperatura (°C)
 
 🔁 Envio de requisição HTTP POST para a API Java com o seguinte payload:
+```JSON
 {
   "moto": {
     "id_moto": 1
@@ -50,7 +47,7 @@ codigo-esp32/
     "id_departamento": 1
   }
 }
-
+```
 ⏱ Atualização a cada 20 segundos para respeitar o limite gratuito da ThingSpeak
 
 ## 🛠️ Como usar
@@ -66,18 +63,41 @@ codigo-esp32/
 
 No main.ino, altere:
 
-const char* SECRET_SSID = "SUA_REDE_WIFI"; // altere para sua rede <br/>
-const char* SECRET_PW = "SUA_SENHA_WIFI"; // altere para sua senha
+```cpp
+const char* SECRET_SSID = "SUA_REDE_WIFI";<br/>
+const char* SECRET_PW   = "SUA_SENHA_WIFI";
 
 unsigned long channelID = 1234567;<br/>
 const char* writeAPIKey = "SUA_WRITE_API_KEY";
 
-4. Carregue no ESP32 e monitore a saída serial.
+// Endereço da API Java (usando ngrok HTTP!)<br/>
+const char* API_ENDPOINT = "http://SEU_NGROK_URL/movimentacoes/salvar";
+```
 
-🌐 Painel ThingSpeak
+4. Inicie o servidor backend Java localmente
+
+   
+Certifique-se de que a aplicação Spring Boot está rodando na porta 8080:
+```bash
+./mvnw spring-boot:run
+```
+
+5. Exponha a API com ngrok:
+```bash
+ngrok http 8080
+```
+Copie a URL gerada (ex: http://abcd1234.ngrok-free.app) e substitua no API_ENDPOINT do código do ESP32.
+
+## 6. Faça o upload para o ESP32
+Use a IDE para carregar o código e abrir o Monitor Serial.
+
+## 7. Interaja via Monitor Serial
+Digite o ID da moto, pressione Enter, e depois pressione o botão físico (GPIO 12) para simular o envio dos dados e movimentação.
+
+## 🌐 Painel ThingSpeak <br/>
 Acompanhe os dados em tempo real acessando o canal público (https://thingspeak.mathworks.com/channels/2950926/private_show).
 
-✍️ Autores
+## ✍️ Autores
 Grupo MotoTrack - FIAP
 
 Participantes:
