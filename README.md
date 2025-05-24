@@ -7,8 +7,8 @@ Projeto desenvolvido para o desafio **MotoTrack**, com o objetivo de monitorar e
 Este projeto utiliza um microcontrolador **ESP32** para simular o envio de dados (como temperatura, umidade, localização ou outros sensores) para a nuvem, usando o serviço **ThingSpeak**. Ele faz parte de uma arquitetura IoT pensada para rastrear motos de forma inteligente.
 
 ## 📁 Estrutura do Projeto
-codigo-esp32/
-├── main.ino # Código principal do ESP32
+codigo-esp32/<br/>
+├── main.ino # Código principal do ESP32<br/>
 ├── README.md # Este arquivo
 
 ## 🔧 Tecnologias Utilizadas
@@ -24,6 +24,7 @@ codigo-esp32/
 - Conexão automática do ESP32 com rede WiFi
 - Envio de múltiplos dados para o ThingSpeak
 - Leitura/simulação de sensores (valores aleatórios por enquanto)
+- Rquisição HTTP para a API em Java
 - Atualização a cada 20 segundos para respeitar a limitação gratuita
 
 ## 🛠️ Como usar
@@ -39,16 +40,16 @@ codigo-esp32/
 
 No main.ino, altere:
 
-const char* SECRET_SSID = "SUA_REDE_WIFI";
-const char* SECRET_PW = "SUA_SENHA_WIFI";
+const char* SECRET_SSID = "SUA_REDE_WIFI"; // altere para sua rede <br/>
+const char* SECRET_PW = "SUA_SENHA_WIFI"; // altere para sua senha
 
-unsigned long channelID = 1234567;
+unsigned long channelID = 1234567;<br/>
 const char* writeAPIKey = "SUA_WRITE_API_KEY";
 
 4. Carregue no ESP32 e monitore a saída serial.
 
 🌐 Painel ThingSpeak
-Acompanhe os dados em tempo real acessando o canal público (link será adicionado aqui quando disponível).
+Acompanhe os dados em tempo real acessando o canal público (https://thingspeak.mathworks.com/channels/2950926/private_show).
 
 ✍️ Autores
 Grupo MotoTrack - FIAP
