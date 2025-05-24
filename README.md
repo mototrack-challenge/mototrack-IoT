@@ -37,12 +37,11 @@ codigo-esp32/
 
 3. Configure suas credenciais:
 
-  No main.ino, altere:
-cpp
-Copiar
-Editar
+No main.ino, altere:
+
 const char* SECRET_SSID = "SUA_REDE_WIFI";
 const char* SECRET_PW = "SUA_SENHA_WIFI";
+
 unsigned long channelID = 1234567;
 const char* writeAPIKey = "SUA_WRITE_API_KEY";
 
