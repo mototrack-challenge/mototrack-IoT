@@ -11,14 +11,12 @@ WiFiClient client;
 unsigned long channelID = 2950926;
 const char* writeAPIKey = "I4Y0E8MYP7ECSPR8";
 
-// === Configuração do endpoint da API via ngrok (HTTP, não HTTPS!) ===
+// === Configuração do endpoint da API via ngrok ===
 const char* API_ENDPOINT = "http://7f0b-2804-7f0-b980-dcb9-5d74-5dc9-68bf-4bf3.ngrok-free.app/movimentacoes/salvar";
 
-// === Pinos ===
-const int buttonPin = 12; // Botão verde
-const int ledPin = 2;     // LED vermelho
+const int buttonPin = 12;
+const int ledPin = 2;    
 
-// === Estado ===
 int idDepartamento = 1;
 bool lastButtonState = HIGH;
 
