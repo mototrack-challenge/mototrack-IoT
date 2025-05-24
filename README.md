@@ -1,31 +1,57 @@
-# MotoTrack IoT 🚀🏍️
-
-Projeto desenvolvido para o desafio **MotoTrack**, com o objetivo de monitorar e rastrear motos em pátios da empresa utilizando **ESP32**, sensores embarcados e **ThingSpeak** para visualização dos dados em tempo real.
+## MotoTrack IoT 🚀🏍️
+Projeto desenvolvido para o desafio MotoTrack, com o objetivo de monitorar e rastrear motos em pátios da empresa utilizando ESP32, sensores embarcados e ThingSpeak para visualização dos dados em tempo real, além de uma integração direta com uma API Java Spring Boot exposta pela internet via ngrok.
 
 ## 📡 Descrição
+Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (como temperatura e nível de bateria) para a nuvem via ThingSpeak, além de comunicar-se com uma API REST Java responsável por registrar movimentações de motos em diferentes departamentos da empresa.
 
-Este projeto utiliza um microcontrolador **ESP32** para simular o envio de dados (como temperatura, umidade, localização ou outros sensores) para a nuvem, usando o serviço **ThingSpeak**. Ele faz parte de uma arquitetura IoT pensada para rastrear motos de forma inteligente.
+A aplicação integra as seguintes tecnologias:
+
+ESP32 + C++
+
+ThingSpeak para monitoramento em tempo real
+
+API REST em Java com Spring Boot
+
+Exposição da API local usando ngrok (HTTP)
+
+Simulador Wokwi para testes online
+
 
 ## 📁 Estrutura do Projeto
-codigo-esp32/<br/>
-├── main.ino # Código principal do ESP32<br/>
-├── README.md # Este arquivo
+codigo-esp32/
+├── main.ino       # Código principal do ESP32
+├── README.md      # Este arquivo
+
 
 ## 🔧 Tecnologias Utilizadas
 
-- ESP32 DevKit
-- Arduino IDE / VSCode com extensões de IoT
-- ThingSpeak (canal de nuvem para dados)
-- WiFi para comunicação com a internet
-- Wokwi (simulador)
+- ✅ ESP32 DevKit
+- 🧰 Arduino IDE ou VSCode + PlatformIO
+- 📊 ThingSpeak (canal público para dashboard)
+- 🌐 WiFi para conexão com internet
+- 🔗 ngrok para expor o backend Java
+- 🧪 Wokwi (simulador online)
+- ☕ Spring Boot API com Oracle DB
 
 ## 📲 Funcionalidades
 
-- Conexão automática do ESP32 com rede WiFi
-- Envio de múltiplos dados para o ThingSpeak
-- Leitura/simulação de sensores (valores aleatórios por enquanto)
-- Rquisição HTTP para a API em Java
-- Atualização a cada 20 segundos para respeitar a limitação gratuita
+-🔌 Conexão automática do ESP32 com rede Wi-Fi
+- 📤 Envio de dados aleatórios para ThingSpeak:
+- ID da moto
+- Nível de bateria (%)
+- Temperatura (°C)
+
+🔁 Envio de requisição HTTP POST para a API Java com o seguinte payload:
+{
+  "moto": {
+    "id_moto": 1
+  },
+  "departamento": {
+    "id_departamento": 1
+  }
+}
+
+⏱ Atualização a cada 20 segundos para respeitar o limite gratuito da ThingSpeak
 
 ## 🛠️ Como usar
 
