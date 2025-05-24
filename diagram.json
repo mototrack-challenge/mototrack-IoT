@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "author": "Augusto Lopes Lyra",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -19.2, "left": -71.96, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 25.4,
+      "left": 76.8,
+      "attrs": { "color": "green", "xray": "0" }
+    },
+    { "type": "wokwi-led", "id": "led1", "top": 140.4, "left": 80.6, "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    [ "btn1:1.l", "esp:12", "green", [ "h-28.8", "v-67.2", "h-134.4", "v153.6" ] ],
+    [ "btn1:2.l", "esp:GND.2", "black", [ "h-20", "v40", "h-18.4", "v-87.8" ] ],
+    [ "led1:A", "esp:2", "red", [ "v9.6", "h-66.6", "v-48" ] ],
+    [ "led1:C", "esp:GND.1", "black", [ "v20", "h-181.4", "v-83.4" ] ],
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ]
+  ],
+  "dependencies": {}
+}
