@@ -16,6 +16,7 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 ```bash
 codigo-esp32/
 ├── main.ino       # Código principal do ESP32
+├── diagram.json   # diagrama
 ├── README.md      # Este arquivo
 ```
 
