@@ -98,6 +98,10 @@ Digite o ID da moto, pressione Enter, e depois pressione o botão físico (GPIO 
 ## 🌐 Painel ThingSpeak <br/>
 Acompanhe os dados em tempo real acessando o canal público (https://thingspeak.mathworks.com/channels/2950926/private_show).
 
+## Resultados Parciais Canal ThingSpeak:
+![image](https://github.com/user-attachments/assets/72c07521-2ee2-4e87-8d59-7c0a324abc81)
+
+
 ## ✍️ Autores
 Grupo MotoTrack - FIAP
 
