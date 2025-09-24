@@ -12,7 +12,7 @@ unsigned long channelID = 2950926;
 const char* writeAPIKey = "I4Y0E8MYP7ECSPR8";
 
 // === Configuração do endpoint da API via ngrok ===
-const char* API_ENDPOINT = "http://7f0b-2804-7f0-b980-dcb9-5d74-5dc9-68bf-4bf3.ngrok-free.app/movimentacoes/salvar";
+const char* API_ENDPOINT = "http://127.0.0.1/movimentacoes";
 
 const int buttonPin = 12;
 const int ledPin = 2;    
