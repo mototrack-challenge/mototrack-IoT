@@ -11,7 +11,7 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 - Exposição da API local usando ngrok (HTTP)
 - Simulador Wokwi para testes online
   
-#🔑 Novas implementações (Sprint 3):
+## 🔑 Novas implementações (Sprint 3):
 
 - Autenticação JWT para comunicação segura com a API Java.
 - Backend REST Java com Spring Boot para autenticação e movimentações.
