@@ -1,24 +1,64 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ThingSpeak.h>
+#include <ArduinoJson.h>  // Biblioteca para JSON
 
-// === Configurações da rede Wi-Fi ===
-const char* SECRET_SSID = "Wokwi-GUEST";
-const char* SECRET_PW = "";
+const char* WIFI_SSID = "Wokwi-GUEST";
+const char* WIFI_PASS = "";
 
-// === Configurações do ThingSpeak ===
 WiFiClient client;
 unsigned long channelID = 2950926;
 const char* writeAPIKey = "I4Y0E8MYP7ECSPR8";
 
-// === Configuração do endpoint da API via ngrok ===
-const char* API_ENDPOINT = "http://127.0.0.1/movimentacoes";
+// === Endpoints da API (Spring Boot via ngrok/IP local) ===
+const char* API_ENDPOINT   = "http://fd702f3433a2.ngrok-free.app/movimentacoes";
+const char* LOGIN_ENDPOINT = "http://fd702f3433a2.ngrok-free.app/auth/login";
+
+// === Usuário para login ( TROCAR DE ACORDO COM O USUÁRIO CRIADO NO POSTMAN ) ===
+const char* USER_EMAIL    = "augustolyra@email.com";
+const char* USER_PASSWORD = "augusto123";
 
 const int buttonPin = 12;
-const int ledPin = 2;    
+const int ledPin    = 2;
 
 int idDepartamento = 1;
 bool lastButtonState = HIGH;
+String jwtToken = "";
+
+// === Função de login ===
+void autenticarAPI() {
+  HTTPClient http;
+  http.begin(LOGIN_ENDPOINT); 
+  http.addHeader("Content-Type", "application/json");
+
+  String loginPayload = "{\"email\":\"" + String(USER_EMAIL) + "\",\"senha\":\"" + String(USER_PASSWORD) + "\"}";
+
+  int httpResponseCode = http.POST(loginPayload);
+
+  if (httpResponseCode == 200) {
+    String response = http.getString();
+    Serial.println("Login bem-sucedido: " + response);
+
+    // Usa ArduinoJson para extrair o token
+    StaticJsonDocument<512> doc;
+    DeserializationError error = deserializeJson(doc, response);
+
+    if (!error && doc.containsKey("token")) {
+      jwtToken = doc["token"].as<String>();
+      Serial.println("Token JWT obtido: " + jwtToken);
+    } else {
+      Serial.println("⚠️ Erro ao processar JSON: " + String(error.c_str()));
+    }
+  } else {
+    Serial.println("Erro ao autenticar. Código HTTP: " + String(httpResponseCode));
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println("Resposta da API: " + response);
+    }
+  }
+
+  http.end();
+}
 
 void setup() {
   Serial.begin(115200);
@@ -30,24 +70,27 @@ void setup() {
   digitalWrite(ledPin, LOW);
 
   Serial.println("MotoTrack iniciado.");
+  Serial.println("Conectando WiFi...");
+
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+
+  Serial.println("\n✅ WiFi conectado!");
+  Serial.println("IP: " + WiFi.localIP().toString());
+
+  // Faz login e pega token
+  autenticarAPI();
+
   Serial.println("Digite o ID da moto no monitor serial.");
 }
 
 void loop() {
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.print("Conectando ao WiFi: ");
-    Serial.println(SECRET_SSID);
-    while (WiFi.status() != WL_CONNECTED) {
-      WiFi.begin(SECRET_SSID, SECRET_PW);
-      Serial.print(".");
-      delay(5000);
-    }
-    Serial.println("\nConectado!");
-    Serial.println("Endereço IP: " + WiFi.localIP().toString());
-  }
-
   static int idMoto = 0;
 
+  // Lê ID da moto via Serial
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
     input.trim();
@@ -61,8 +104,8 @@ void loop() {
 
   bool buttonState = digitalRead(buttonPin);
   if (lastButtonState == HIGH && buttonState == LOW && idMoto > 0) {
-    int bateria = random(10, 100);                  
-    float temperatura = random(200, 350) / 10.0;     
+    int bateria = random(10, 100);
+    float temperatura = random(200, 350) / 10.0;
 
     ThingSpeak.setField(1, idMoto);
     ThingSpeak.setField(2, idDepartamento);
@@ -72,37 +115,42 @@ void loop() {
     int status = ThingSpeak.writeFields(channelID, writeAPIKey);
 
     if (status == 200) {
-      Serial.println("Dados enviados ao ThingSpeak com sucesso.");
+      Serial.println("📡 Dados enviados ao ThingSpeak com sucesso.");
       digitalWrite(ledPin, HIGH);
     } else {
-      Serial.println("Erro ao enviar para ThingSpeak: " + String(status));
+      Serial.println("❌ Erro ao enviar para ThingSpeak: " + String(status));
       digitalWrite(ledPin, LOW);
     }
 
-    // Envio real para a API
-    String jsonPayload = "{\"moto\":{\"id_moto\":" + String(idMoto) + "},\"departamento\":{\"id_departamento\":" + String(idDepartamento) + "}}";
-    
-    HTTPClient http;
-    http.begin(client, API_ENDPOINT); // HTTPS support
-    http.addHeader("Content-Type", "application/json");
+    // === Envia para API protegida com JWT ===
+    if (jwtToken != "") {
+      String jsonPayload = "{\"moto_id\":" + String(idMoto) + ",\"departamento_id\":" + String(idDepartamento) + "}";
 
-    int httpResponseCode = http.POST(jsonPayload);
+      HTTPClient http;
+      http.begin(API_ENDPOINT);
+      http.addHeader("Content-Type", "application/json");
+      http.addHeader("Authorization", "Bearer " + jwtToken);
 
-    if (httpResponseCode > 0) {
-      String response = http.getString();
-      Serial.println("Requisição HTTP feita com sucesso.");
-      Serial.println("Código de resposta: " + String(httpResponseCode));
-      Serial.println("Resposta: " + response);
+      int httpResponseCode = http.POST(jsonPayload);
+
+      if (httpResponseCode > 0) {
+        String response = http.getString();
+        Serial.println("✅ Requisição enviada para API.");
+        Serial.println("Código HTTP: " + String(httpResponseCode));
+        Serial.println("Resposta: " + response);
+      } else {
+        Serial.println("❌ Falha na requisição HTTP.");
+        Serial.println("Código de erro: " + String(httpResponseCode));
+      }
+
+      http.end();
     } else {
-      Serial.println("Falha na requisição HTTP.");
-      Serial.println("Código de erro: " + String(httpResponseCode));
+      Serial.println("⚠️ Token JWT não disponível. Verifique autenticação.");
     }
 
-    http.end();
-
-    delay(1000);  // Feedback visual
+    delay(1000);
     digitalWrite(ledPin, LOW);
-    delay(20000); // Delay de 20s para respeitar ThingSpeak
+    delay(20000); // Delay de 20s p/ respeitar ThingSpeak
   }
 
   lastButtonState = buttonState;
