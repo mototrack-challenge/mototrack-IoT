@@ -22,10 +22,15 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 
 ## 📁 Estrutura do Projeto
 ```bash
-codigo-esp32/
-├── main.ino       # Código principal do ESP32
-├── diagram.json   # diagrama
-├── README.md      # Este arquivo
+├── iot/                        # Código do ESP32 e protótipos
+│   ├── src/
+│   │   ├── main.cpp            # Código principal do ESP32
+│   │   └── diagram.json        # Esquemático do circuito
+│   ├── wokwi.toml              # Configuração do simulador Wokwi
+│   ├── platformio.ini          # Configuração do PlatformIO
+│   ├── LICENSE
+│   ├── .gitignore
+│   └── README.md               # Instruções do módulo IoT
 ```
 
 ## 🔧 Tecnologias Utilizadas
