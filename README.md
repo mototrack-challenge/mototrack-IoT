@@ -160,8 +160,8 @@ Felipe Ulson Sora (RM: 555462)
 
 Vinícius Ribeiro Nery Costa (RM: 559165)
 
-📅 Status do Projeto
-🟢 Sprint 1/2: Protótipo com envio de dados funcionando.
+📅 Status do Projeto</br>
+🟢 Sprint 1/2: Protótipo com envio de dados funcionando.</br>
 🟢 Sprint 3: Integração com API Java + JWT e persistência no Banco de Dados.
 
 📌 Licença
