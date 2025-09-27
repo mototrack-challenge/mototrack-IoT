@@ -10,7 +10,7 @@ WiFiClient client;
 unsigned long channelID = 2950926;
 const char* writeAPIKey = "I4Y0E8MYP7ECSPR8";
 
-// === Endpoints da API (Spring Boot via ngrok/IP local) ===
+// === Endpoints da API (Spring Boot via ngrok/IP local - Trocar com base na URL gerada pelo ngrok) ===
 const char* API_ENDPOINT   = "http://fd702f3433a2.ngrok-free.app/movimentacoes";
 const char* LOGIN_ENDPOINT = "http://fd702f3433a2.ngrok-free.app/auth/login";
 
