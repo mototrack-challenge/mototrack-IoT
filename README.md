@@ -10,14 +10,27 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 - API REST em Java com Spring Boot
 - Exposição da API local usando ngrok (HTTP)
 - Simulador Wokwi para testes online
+  
+## 🔑 Novas implementações (Sprint 3):
 
+- Autenticação JWT para comunicação segura com a API Java.
+- Backend REST Java com Spring Boot para autenticação e movimentações.
+- Backend MVC Java com painel administrativo para gestão de motos e usuários.
+- Backend .NET REST para funcionalidades complementares.
+- Aplicativo mobile em React Native consumindo ambas as APIs.
+- Banco de dados Oracle com versionamento automático via Flyway.
 
 ## 📁 Estrutura do Projeto
 ```bash
-codigo-esp32/
-├── main.ino       # Código principal do ESP32
-├── diagram.json   # diagrama
-├── README.md      # Este arquivo
+├── iot/                        # Código do ESP32 e protótipos
+│   ├── src/
+│   │   ├── main.cpp            # Código principal do ESP32
+│   │   └── diagram.json        # Esquemático do circuito
+│   ├── wokwi.toml              # Configuração do simulador Wokwi
+│   ├── platformio.ini          # Configuração do PlatformIO
+│   ├── LICENSE
+│   ├── .gitignore
+│   └── README.md               # Instruções do módulo IoT
 ```
 
 ## 🔧 Tecnologias Utilizadas
@@ -29,6 +42,8 @@ codigo-esp32/
 - 🔗 ngrok para expor o backend Java
 - 🧪 Wokwi (simulador online)
 - ☕ Spring Boot API com Oracle DB
+- 🔐 JWT (JSON Web Token)
+- NGROK
 
 ## 📲 Funcionalidades
 
@@ -89,10 +104,38 @@ ngrok http 8080
 ```
 Copie a URL gerada (ex: http://abcd1234.ngrok-free.app) e substitua no API_ENDPOINT do código do ESP32.
 
-## 6. Faça o upload para o ESP32
+
+6. 🔑 Autenticação JWT (Postman + ESP32)
+
+1️⃣ Criar um usuário no Postman
+   
+ #### 🔐 Usuário
+
+- `POST - /usuarios`  
+  Cadastra um novo usuário.
+
+```jsonc
+{
+  "nome": "Augusto",
+  "email": "augustolyra@email.com",
+  "senha": "augusto123",
+  "perfil": "ADMIN"
+}
+```
+
+2️⃣ Alterar usuário e senha no código:
+
+```cpp
+// === Usuário para login ( TROCAR DE ACORDO COM O USUÁRIO CRIADO NO POSTMAN ) ===
+const char* USER_EMAIL    = "augustolyra@email.com";
+const char* USER_PASSWORD = "augusto123";
+```
+
+
+## 7. Faça o upload para o ESP32
 Use a IDE para carregar o código e abrir o Monitor Serial.
 
-## 7. Interaja via Monitor Serial
+## 8. Interaja via Monitor Serial
 Digite o ID da moto, pressione Enter, e depois pressione o botão físico (GPIO 12) para simular o envio dos dados e movimentação.
 
 ## 🌐 Painel ThingSpeak <br/>
@@ -100,6 +143,10 @@ Acompanhe os dados em tempo real acessando o canal público (https://thingspeak.
 
 ## Resultados Parciais Canal ThingSpeak:
 ![image](https://github.com/user-attachments/assets/72c07521-2ee2-4e87-8d59-7c0a324abc81)
+
+## Resultados Parciais Canal ThingSpeak (Sprint 3):
+<img width="1600" height="819" alt="image" src="https://github.com/user-attachments/assets/451e02f0-3d9b-4723-87f6-4c85a19df963" />
+
 
 
 ## ✍️ Autores
@@ -113,8 +160,9 @@ Felipe Ulson Sora (RM: 555462)
 
 Vinícius Ribeiro Nery Costa (RM: 559165)
 
-📅 Status do Projeto
-🟢 Sprint 1: Protótipo com envio de dados funcionando.
+📅 Status do Projeto</br>
+🟢 Sprint 1/2: Protótipo com envio de dados funcionando.</br>
+🟢 Sprint 3: Integração com API Java + JWT e persistência no Banco de Dados.
 
 📌 Licença
 Este projeto é de uso educacional, desenvolvido para fins acadêmicos.
