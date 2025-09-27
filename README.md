@@ -105,21 +105,54 @@ ngrok http 8080
 Copie a URL gerada (ex: http://abcd1234.ngrok-free.app) e substitua no API_ENDPOINT do código do ESP32.
 
 
-6. 🔑 Autenticação JWT (Postman + ESP32)
+6. ### 🔑 Autenticação com JWT
+Para acessar as rotas protegidas da API, é necessário realizar autenticação:  
+Enviar uma requisição **POST** para: [http://localhost:8080/auth/login](http://localhost:8080/auth/login)
 
-1️⃣ Criar um usuário no Postman
-   
- #### 🔐 Usuário
-
-- `POST - /usuarios`  
-  Cadastra um novo usuário.
+Com o corpo:
+1 - `POST - /usuarios`  
 
 ```jsonc
 {
   "nome": "Augusto",
   "email": "augustolyra@email.com",
   "senha": "augusto123",
-  "perfil": "ADMIN"
+  "perfil": "COMUM"
+}
+```
+2 -  Autentica o usuário.
+
+`POST - /auth/login`  
+```jsonc
+{
+  "email": "augustolyra@email.com",
+  "senha": "augusto123"
+}
+```
+
+3 - A resposta retornará um **token JWT**.
+
+4 - Esse token deve ser utilizado em todas as próximas requisições no header:
+
+### PEGAR O BEARER TOKEN
+
+```json
+{
+    "token": "eyJhbGciOi.............."
+}
+```
+5 - Cadastrar uma moto (o id dela será passado no monitor serial e o ESP32 irá cadastrar uma movimentação com base nele)
+ #### 🛵 Moto
+
+- `POST - /motos`  
+  Cadastra uma nova moto.
+
+```jsonc
+{
+  "placa": "GHI9015",
+  "chassi": "7723JC4198VR1G74B",
+  "modelo": "MOTTU_E",
+  "status": "AVALIACAO"
 }
 ```
 
