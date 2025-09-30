@@ -19,6 +19,7 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 - Backend .NET REST para funcionalidades complementares.
 - Aplicativo mobile em React Native consumindo ambas as APIs.
 - Banco de dados Oracle com versionamento automático via Flyway.
+- Resultados Parciais
 
 ## 📁 Estrutura do Projeto
 ```bash
