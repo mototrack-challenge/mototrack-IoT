@@ -52,18 +52,7 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 - ID da moto
 - Nível de bateria (%)
 - Temperatura (°C)
-
-🔁 Envio de requisição HTTP POST para a API Java com o seguinte payload:
-```JSON
-{
-  "moto": {
-    "id_moto": 1
-  },
-  "departamento": {
-    "id_departamento": 1
-  }
-}
-```
+  
 ⏱ Atualização a cada 20 segundos para respeitar o limite gratuito da ThingSpeak
 
 ## 🛠️ Como usar
@@ -99,8 +88,9 @@ Certifique-se de que a aplicação Spring Boot está rodando na porta 8080:
 ```
 
 5. Exponha a API com ngrok:
+- Rode o projeto Java, vá na pasta do projeto e no caminho da pasta rode o seguinte comando:
 ```bash
-ngrok http 8080
+ngrok http --scheme=http 8080
 ```
 Copie a URL gerada (ex: http://abcd1234.ngrok-free.app) e substitua no API_ENDPOINT do código do ESP32.
 
@@ -110,7 +100,8 @@ Para acessar as rotas protegidas da API, é necessário realizar autenticação:
 Enviar uma requisição **POST** para: [http://localhost:8080/auth/login](http://localhost:8080/auth/login)
 
 Com o corpo:
-1 - `POST - /usuarios`  
+
+6.1 - `POST - /usuarios`  
 
 ```jsonc
 {
@@ -120,7 +111,7 @@ Com o corpo:
   "perfil": "COMUM"
 }
 ```
-2 -  Autentica o usuário.
+6.2 -  Autentica o usuário.
 
 `POST - /auth/login`  
 ```jsonc
@@ -130,9 +121,9 @@ Com o corpo:
 }
 ```
 
-3 - A resposta retornará um **token JWT**.
-
-4 - Esse token deve ser utilizado em todas as próximas requisições no header:
+ - A resposta retornará um **token JWT**.
+   
+ - Esse token deve ser utilizado em todas as próximas requisições no header:
 
 ### PEGAR O BEARER TOKEN
 
@@ -141,7 +132,15 @@ Com o corpo:
     "token": "eyJhbGciOi.............."
 }
 ```
-5 - Cadastrar uma moto (o id dela será passado no monitor serial e o ESP32 irá cadastrar uma movimentação com base nele)
+6.3 Vá na aba de Authorization e mude de No Auth para Baerer Token:
+
+<img width="400" height="97" alt="image" src="https://github.com/user-attachments/assets/8cc1ba80-5a2a-4e58-ae1b-f271b20c9b37" />
+
+6.4 Coloque o Token gerado aqui quando realizar uma requisição:
+
+<img width="624" height="90" alt="image" src="https://github.com/user-attachments/assets/698d4654-9cea-48ae-b371-e4b1b1d978f7" />
+
+6.5 - Cadastrar uma moto (o id dela será passado no monitor serial e o ESP32 irá cadastrar uma movimentação com base nele)
  #### 🛵 Moto
 
 - `POST - /motos`  
@@ -156,7 +155,7 @@ Com o corpo:
 }
 ```
 
-2️⃣ Alterar usuário e senha no código:
+6.6 Alterar usuário e senha no código:
 
 ```cpp
 // === Usuário para login ( TROCAR DE ACORDO COM O USUÁRIO CRIADO NO POSTMAN ) ===
