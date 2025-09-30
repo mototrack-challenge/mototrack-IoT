@@ -69,13 +69,13 @@ Este projeto utiliza um microcontrolador ESP32 para simular o envio de dados (co
 No main.ino, altere:
 
 ```cpp
-const char* SECRET_SSID = "SUA_REDE_WIFI";<br/>
+const char* SECRET_SSID = "SUA_REDE_WIFI";
 const char* SECRET_PW   = "SUA_SENHA_WIFI";
 
-unsigned long channelID = 1234567;<br/>
+unsigned long channelID = 1234567;
 const char* writeAPIKey = "SUA_WRITE_API_KEY";
 
-// Endereço da API Java (usando ngrok HTTP!)<br/>
+// Endereço da API Java (usando ngrok HTTP!)
 const char* API_ENDPOINT = "http://SEU_NGROK_URL/movimentacoes/salvar";
 ```
 
